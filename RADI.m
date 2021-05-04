@@ -2,14 +2,17 @@
 %% Source code by O. Sulpis, M.P. Humphreys, M. Wilhelmus and D. Carroll
 %% Uses: CO2SYS
 
-disp("RADIv20 is running the following experiment:")
+%logo = '  \n      ??????   ???            ???????  ???\n      ??? ? ?????????    ???? ???????\n      ??? ??? ????    ???  ???     ? ????\n      ???????  ???????? ????    ?????\n      ???? ???? ??     ??????????????      \n      ??? ???? ??   ???? ???  ? ??\n       ?? ? ??  ?   ?? ? ? ?  ?  ? ?\n       ??   ?   ?   ?    ? ?  ?  ? ?\n        ?           ?  ?   ?     ?\n                                       ?\n           "What do I know of man"s destiny?\n           I could tell you more about radishes.”\n                                -- Samuel Beckett';
+%fprintf(logo);
+
+disp("RADI is running the following setup/station:")
 disp(Station)
 if rerun==1
-    disp("it is a rerun: you can stop the run at any time to visualize the evolution of the system")
+    disp("it is a rerun: stop the run at any time (CTRL+C) to visualize the evolution of the system and run again")
     disp("years after start of simulation:")
 elseif rerun==0
-    disp("it is not a rerun: you can stop the run at any time to visualize the evolution of the system")
-    disp("when you stop, set rerun to '1' to continue the analysis")
+    disp("it is not a rerun: stop the run at any time (CTRL+C) to visualize the evolution of the system")
+    disp("then, set rerun to '1' to continue the analysis")
     disp("years after start of simulation")
 else
     disp('initial conditions loaded')
@@ -136,11 +139,10 @@ if rerun == 0 %concentrations set to zero for solids, bottom water values for no
     % variable saving
     i=1;
     idx=1;
-    %1/40 for seasons % 1/32000 for tides
     plot_number=0:t_length/stoptime:t_length;  %we will only keep the variables every year
-%    plot_number=0:t_length/stoptime/12800:t_length;  %we will keep the
-%    variables every (1/32000) year (~half an hour)
-    plot_number(1)=1;
+%    plot_number=0:t_length/stoptime/12800:t_length;  %we will keep the variables every (1/32000) year (~half an hour)
+%    plot_number=0:t_length/stoptime/12800:t_length;  %we will keep the variables every (1/40) year (~half an hour)
+plot_number(1)=1;
     
 elseif rerun==1 %if it is a rerun, initial conditions are concentrations from last time step
     dO2=dO2f(:,idx-1)';            %[mol/m3]
@@ -223,48 +225,8 @@ phi_j = phi(j);
 phiS_j = phiS(j);
 
 %% Begin timestep loop
-% Start with some O2 and OC
-if rerun==0
-%dO2(:) = dO2w;
-%dtalk(:) = dtalkw;
-%dtCO2(:) = dtCO2w;
-%dtNO3(:)=dtNO3w;            %[mol/m3]
-%dtSO4(:)=dtSO4w;            %[mol/m3]
-%dtPO4(:)=dtPO4w;            %[mol/m3]
-%dtNH4(:)=dtNH4w;            %[mol/m3]
-%dtH2S(:)=dtH2Sw;            %[mol/m3]
-%dFe(:)=dFew;            %[mol/m3]
-%dMn(:)=dMnw;            %[mol/m3]
-%dCa(:)=dCaw;
-%proc(:) = 3e2;
-%psoc(:) = 80;
-%pfoc(:) = 0;
-%pFeOH3(:)= 7e2;
-%pMnO2(:) = 6e2;
-%pcalcite(:) = 3.3e3;
-%paragonite(:) = 0;
-%pclay(:) = 4.1e3;
 
-% Preallocate saving arrays
-%dO2f = NaN(ndepths, t_length);
-%dtalkf = NaN(ndepths, t_length);
-%dtCO2f = NaN(ndepths, t_length);
-%dtNO3f = NaN(ndepths, t_length);
-%dtSO4f = NaN(ndepths, t_length);
-%dtPO4f = NaN(ndepths, t_length);
-%dtNH4f = NaN(ndepths, t_length);
-%dtH2Sf = NaN(ndepths, t_length);
-%dFef = NaN(ndepths, t_length);
-%dMnf = NaN(ndepths, t_length);
-%dCaf = NaN(ndepths, t_length);
-%procf = NaN(ndepths, t_length);
-%psocf = NaN(ndepths, t_length);
-%pfocf = NaN(ndepths, t_length);
-%pFeOH3f = NaN(ndepths, t_length);
-%pMnO2f = NaN(ndepths, t_length);
-%pcalcitef = NaN(ndepths, t_length);
-%paragonitef = NaN(ndepths, t_length);
-%pclayf = NaN(ndepths, t_length);
+if rerun==0
 
 dO2f = NaN(ndepths, stoptime+1);
 dtalkf = NaN(ndepths, stoptime+1);
@@ -289,12 +251,11 @@ end
 
 for i=i:t_length-1
 
-%     disp(i)
-    
-%compute solute diffusive fluxes through the sediment-water interface 
-%    F_O2i=(D_dO2*phi(1)*(dO2f(1,:)-dO2w)./0.2e-3)';
-%    F_DICi=(D_dtCO2*phi(1)*(dtCO2f(1,:)-dtCO2w)./0.2e-3)';
-%    F_TAi=(D_dtalk*phi(1)*(dtalkf(1,:)-dtalkw)./0.2e-3)';
+
+    %%  Compute solute diffusive fluxes through the sediment-water interface 
+    %    F_O2i=(D_dO2*phi(1)*(dO2f(1,:)-dO2w)./0.2e-3)';
+    %    F_DICi=(D_dtCO2*phi(1)*(dtCO2f(1,:)-dtCO2w)./0.2e-3)';
+    %    F_TAi=(D_dtalk*phi(1)*(dtalkf(1,:)-dtalkw)./0.2e-3)';
     
        
     %% Organic matter respiration pathways
@@ -370,9 +331,9 @@ for i=i:t_length-1
    % Aragonite dissolution rate from Dong et al. (2019) EPSL
        for jj=1:ndepths
           if OmegaA(1,jj)<=1 && OmegaA(1,jj)>0.835 %this is the omega value for which both laws are equals
-          Rd_aragonite(1,jj)=paragonite(1,jj).*200./4*7.6e-5*((1-OmegaA(1,jj)).^0.13);
+          Rd_aragonite(1,jj)=paragonite(1,jj).*0.0038*((1-OmegaA(1,jj)).^0.13);
           elseif OmegaA(1,jj)<=0.835 %this is the omega value for which both laws are equals
-          Rd_aragonite(1,jj)=paragonite(1,jj).*200./4*8.4e-4*((1-OmegaA(1,jj)).^1.46);    
+          Rd_aragonite(1,jj)=paragonite(1,jj).*0.0420*((1-OmegaA(1,jj)).^1.46);    
           else            
           Rd_aragonite(1,jj)=0;    
           end
@@ -381,9 +342,9 @@ for i=i:t_length-1
     %Calcite dissolution from Naviaux et al. (2019) Marine Chemistry
     for jj=1:ndepths
           if OmegaC(1,jj)<=1 && OmegaC(1,jj)>0.8275 %this is the omega value for which both laws are equals
-          Rd_calcite(1,jj)=pcalcite(1,jj).*400./4*6.32e-5*((1-OmegaC(1,jj)).^0.11);
+          Rd_calcite(1,jj)=pcalcite(1,jj).*0.0063*((1-OmegaC(1,jj)).^0.11);
           elseif OmegaC(1,jj)<=0.8275 %this is the omega value for which both laws are equals
-          Rd_calcite(1,jj)=pcalcite(1,jj).*400./4*0.2*((1-OmegaC(1,jj)).^4.7);    
+          Rd_calcite(1,jj)=pcalcite(1,jj).*20*((1-OmegaC(1,jj)).^4.7);    
           else            
           Rd_calcite(1,jj)=0;    
           end
@@ -393,24 +354,24 @@ for i=i:t_length-1
     %normalized to the same surface area than for dissolution (4m2/g)
     for jj=1:ndepths
          if OmegaC(1,jj)>1
-         Rp_calcite(1,jj)=1.63./4*((OmegaC(1,jj)-1).^1.76);  %%%CONSIDERABLE UNCERTAINTY IN THE RATE CONSTANT
+         Rp_calcite(1,jj)=0.4075*((OmegaC(1,jj)-1).^1.76);  %%%CONSIDERABLE UNCERTAINTY IN THE RATE CONSTANT
          else 
          Rp_calcite(1,jj)=0;
          end
     end
         
-        %% Variable solid fluxes or DBL
+        %% Time varying Variable solid fluxes or DBL
  
-%    Foc=0.1956977592284939+sin(2*pi*i*interval)*0.1956977592284939*0.5; %[mol/m2/a] flux of total organic carbon to the bottom 
-%    Froc=Foc*0.03; %[mol/m2/a] flux of total organic carbon to the bottom 
-%    Fsoc=Foc*0.27; %[mol/m2/a] flux of total organic carbon to the bottom 
-%    Ffoc=Foc*0.7; %[mol/m2/a] flux of total organic carbon to the bottom  
-%    Fcalcite=0.22+sin(2*pi*i*interval)*0.22*0.5;
-%    dbl=1e-3+0.5e-3*sin(2*pi*i*interval*365.25*24./6);
+    %Foc=0.1956977592284939+sin(2*pi*i*interval/1)*0.1956977592284939*0.5; %[mol/m2/a] flux of total organic carbon to the bottom 
+    %Froc=Foc*0.03; %[mol/m2/a] flux of refractory organic carbon to the bottom 
+    %Fsoc=Foc*0.27; %[mol/m2/a] flux of slow-decay organic carbon to the bottom 
+    %Ffoc=Foc*0.7; %[mol/m2/a] flux of fast-decay organic carbon to the bottom  
+    %Fcalcite=0.22+sin(2*pi*i*interval/1)*0.22*0.5;
+    %dbl=1e-3+0.5e-3*sin(2*pi*i*interval*365.25*24./6);
     
-%    Foc_saved(1,idx)=Foc;
-%    dbl_saved(1,idx)=dbl; 
-%    TR=(2*z_res.* (tort.^2)./ dbl);
+    %Foc_saved(1,idx)=Foc;
+    %dbl_saved(1,idx)=dbl; 
+    %TR=(2*z_res.* (tort.^2)./ dbl);
 
     %% Calculate all reactions (14 species, units: [mol/m3/a])
     TotR_dO2 = - phiS./phi.*(Rs_o2 + Rf_o2) - 0.25.*RFeox - 0.5.*RMnox - 2.*RSox - 2.*RNHox;

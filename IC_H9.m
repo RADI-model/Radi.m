@@ -1,4 +1,7 @@
 %Station H9
+%Hales et al 1994 Deep-Sea Research
+clear all
+
 Station= "Hales 1996 - H9";
 
 %% definition of the spatial domain with two different resolutions
@@ -19,7 +22,6 @@ SF_depth=5210;      %[m] seafloor depth
 S=34.9;   %[psu] salinity
 P=5312.4;    %[bar] pressure
 rho_sw = gsw_rho(S,T,P);    %[kg/m^3] in situ seawater density computed from GSW toolbox
-%P=rho_sw.*9.81.*SF_depth/1e5; %[bar] in situ pressure computed from GSW toolbox
 
 %% bottom-water values of dissolved species
 dO2w=(266.6)*1e-6*rho_sw; %[mol/m3] dissolved oxygen from GLODAP at station location, bottom waters
@@ -28,10 +30,10 @@ dtCO2w=(2186)*1e-6*rho_sw; %[mol/m3] DIC from GLODAP at sation location, bottom 
 dtNO3w=(20.0668)*1e-6*rho_sw; %[mol/m3] nitrate from GLODAP at sation location, bottom waters
 dtSO4w=(29264.2*S/35)*1e-6*rho_sw; %[mol/m3] computer from salinity (Millero, 2013)
 dtPO4w=(1.3561)*1e-6*rho_sw; %[mol/m3] nitrate from GLODAP at sation location, bottom waters
-dtNH4w=(0)*1e-6*rho_sw; %[mol/m3] typical for deep sea oxic bottom waters (Archer et al., 2002)
+dtNH4w=(0)*1e-6*rho_sw; %[mol/m3] assumed
 dtH2Sw=(0)*1e-6*rho_sw; %[mol/m3] assumed
-dFew=(0.5)*1e-9*rho_sw; %[mol/m3] typical for deep sea oxic bottom waters (Archer et al., 2002) %%FROM QUICK GOOGLE SEARCH
-dMnw=(0.5)*1e-9*rho_sw; %[mol/m3] typical for deep sea oxic bottom waters (Archer et al., 2002)
+dFew=(0.5)*1e-9*rho_sw; %[mol/m3] typical for deep sea oxic bottom waters (Abadie et al., 2019)
+dMnw=(0.5)*1e-9*rho_sw; %[mol/m3] typical for deep sea oxic bottom waters (Morton et al., 2019)
 dtSiw=(120)*1e-6*rho_sw;  %[mol/m3] dissolved inorganic silica
 dCaw=0.02128./40.087.*(S./1.80655)*rho_sw;  %[mol/m3] Ca, computed from salinity using Riley CG(1967)
 
@@ -39,15 +41,15 @@ dCaw=0.02128./40.087.*(S./1.80655)*rho_sw;  %[mol/m3] Ca, computed from salinity
 phiBeta = 33;   %porosity attenuation coefficient
 phiInf = 0.74;   %porosity at infinite depth
 phi0 = 0.91;    %porosity at interface
-phi = (phi0 - phiInf)*exp(-phiBeta*depths) + phiInf;   %porosity profile (porewater bulk fraction) fitted from station7 mooring3 of cruise NBP98-2 by Sayles et al DSR 2001
+phi = (phi0 - phiInf)*exp(-phiBeta*depths) + phiInf;   %porosity profile 
 phiS=1-phi;   %solid volume fraction
 tort=(1-2*log(phi)).^0.5;   %tortuosity from Boudreau (1996, GCA)
 tort2=tort.^2;   %tortuosity squared
 
 %% Redfield ratios
-RC=106;     %P:C computed as a function of SRP from Galbraith and Martiny PNAS 2015
-RN=16;     % value at 60 degS from Martiny et al. Nat G 2013 
-RP=1;    % Redfield ratio for P in the deep sea
+RC=106;     %Redfield ratio for C
+RN=16;     %Redfield ratio for N 
+RP=1;    % Redfield ratio for P
 M_CH2O=30.031; %[g per mol]
 M_NH3=17.031; %[g per mol]
 M_H3PO4=97.994; %[g per mol]
@@ -55,10 +57,10 @@ M_OM=M_CH2O+(RN/RC)*M_NH3+(RP/RC)*M_H3PO4; %[g of OM per mol of OC] Organic Matt
 
 %% solid fluxes and solid initial conditions
 Foc=0.1790; %[mol/m2/a] flux of total organic carbon to the bottom 
-Froc=Foc*0.03; %[mol/m2/a] flux of total organic carbon to the bottom 
-Fsoc=Foc*0.27; %[mol/m2/a] flux of total organic carbon to the bottom 
-Ffoc=Foc*0.70; %[mol/m2/a] flux of total organic carbon to the bottom 
-FMnO2=0.0005; %0.0035 typical for deep sea oxic bottom waters (Archer et al., 2002; Boudreau, 1996)
+Froc=Foc*0.03; %[mol/m2/a] flux of refractory organic carbon to the bottom 
+Fsoc=Foc*0.27; %[mol/m2/a] flux of slow-decay organic carbon to the bottom 
+Ffoc=Foc*0.70; %[mol/m2/a] flux of fast-decay organic carbon to the bottom 
+FMnO2=0.0005; %typical for deep sea oxic bottom waters (Archer et al., 2002; Boudreau, 1996)
 FFeOH3=0.0005; %typical for deep sea oxic bottom waters (Archer et al., 2002; Boudreau, 1996)
 Fcalcite=0.2; %[mol/m2/a] flux of calcite to the seafloor 
 Faragonite=0; %[mol/m2/a] flux of aragonite to the seafloor

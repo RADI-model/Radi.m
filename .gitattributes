@@ -1,0 +1,2 @@
+# Avoid false identification as Mathematica files
+*.m linguist-language=MATLAB

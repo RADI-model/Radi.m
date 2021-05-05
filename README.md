@@ -43,9 +43,20 @@ RADI % run the model
 ```
 
 ## Changing the times at which RADI saves the results
-
-
-
+The numbers that are displayed in the command represent the times after the start of the simulation (in year). During the simulation, RADI does not save the results at every time step, but only at predefined times. The default option is that RADI saves the results every year, indicated on line 80 of the IC_XXX files setting up environmental conditions:
+```matlab
+time_saved_resolution=1; %[a]
+```
+However, this is not adequate to visualize changes occuring at shorter timescales, e.g, tides, seasons, etc. 
+In order to save the results every day or so, write:
+```matlab
+time_saved_resolution=1/320; %[a]
+```
+Note that it has to be a number with a limited number of decimals. In order to save the results every hour or so, write:
+```matlab
+time_saved_resolution=1/6400; %[a]
+```
+etc.
 
 ## Implementing time-dependent solid fluxes
 

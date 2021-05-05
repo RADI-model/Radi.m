@@ -59,10 +59,11 @@ time_saved_resolution=1/6400; %[a]
 etc.
 
 ## Implementing time-dependent solid fluxes
-
-
+In order to implement solid fluxes that are varying with time, go to the section entitled "Time varying Variable solid fluxes or DBL", line 361 and 365, in RADI.m.
+Comment them out to have a Foc and Fcalcite that are varying with seasons. Another function can be implemented, i.e., to simulate a solid fluxes that is only decreasing through time. 
 
 ## Implementing time-dependent diffusive boundary layer thickness
-
+In order to implement a diffusive boundary layer thickness that is varying with time, go to the section entitled "Time varying Variable solid fluxes or DBL", line 366, in RADI.m.
+Comment it out to have a DBL that is varying with tides. 
 
 

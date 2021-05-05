@@ -1,5 +1,7 @@
 # RADI v1
 
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.4680228-informational)](https://doi.org/10.5281/zenodo.4739205)
+
 1-D Reaction-Advection-Diffusion-Irrigation (RADI) Diagenetic Sediment Module.
 
 Source code by [O. Sulpis](https://deep-c.xyz/), [M.P. Humphreys](https://mvdh.xyz), [M.M. Wilhelmus](https://wilhelmusmtz.github.io/) and D. Carroll. 

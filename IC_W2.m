@@ -29,7 +29,7 @@ dtCO2w=(2324)*1e-6*rho_sw; %[mol/m3] DIC from GLODAP at sation location, bottom 
 dtNO3w=(36.93)*1e-6*rho_sw; %[mol/m3] nitrate from GLODAP at sation location, bottom waters
 dtSO4w=(29264.2*S/35)*1e-6*rho_sw; %[mol/m3] computer from salinity (Millero, 2013)
 dtPO4w=(2.39)*1e-6*rho_sw; %[mol/m3] phosphate from GLODAP at sation location, bottom waters
-dtNH4w=0*1e-6*rho_sw; %[mol/m3] assumed
+dtNH4w=1e-6*rho_sw; %[mol/m3] assumed
 dtH2Sw=0*1e-6*rho_sw; %[mol/m3] assumed
 dFew=0.5*1e-9*rho_sw; %[mol/m3] typical for deep sea oxic bottom waters (Abadie et al., 2019)
 dMnw=0.5*1e-9*rho_sw; %[mol/m3] typical for deep sea oxic bottom waters (Morton et al., 2019)
@@ -75,6 +75,6 @@ end
 
 %% diffusive boundary layer
 dbl=1e-3;            %[m] thickness at location taken from Sulpis et al 2018 PNAS
-save('data/IC_W2_OMonly_short.mat')
 
 rerun = 0;
+time_saved_resolution=1/6400; %[a]

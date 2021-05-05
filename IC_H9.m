@@ -18,7 +18,6 @@ t_length=stoptime/interval;      %[no unit] number of time layers
 
 %% bottom-water environmental conditions
 T=2.2;      %[C] temperature
-SF_depth=5210;      %[m] seafloor depth
 S=34.9;   %[psu] salinity
 P=5312.4;    %[bar] pressure
 rho_sw = gsw_rho(S,T,P);    %[kg/m^3] in situ seawater density computed from GSW toolbox
@@ -76,6 +75,6 @@ end
 
 %% diffusive boundary layer
 dbl=0.938e-3;            %[m] thickness at location taken from Sulpis et al 2018 PNAS
-save('data/IC_W2_OMonly_short.mat')
 
 rerun = 0;
+time_saved_resolution=1; %[a]

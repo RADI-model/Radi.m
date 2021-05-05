@@ -2,9 +2,6 @@
 %% Source code by O. Sulpis, M.P. Humphreys, M. Wilhelmus and D. Carroll
 %% Uses: CO2SYS
 
-%logo = '  \n      ??????   ???            ???????  ???\n      ??? ? ?????????    ???? ???????\n      ??? ??? ????    ???  ???     ? ????\n      ???????  ???????? ????    ?????\n      ???? ???? ??     ??????????????      \n      ??? ???? ??   ???? ???  ? ??\n       ?? ? ??  ?   ?? ? ? ?  ?  ? ?\n       ??   ?   ?   ?    ? ?  ?  ? ?\n        ?           ?  ?   ?     ?\n                                       ?\n           "What do I know of man"s destiny?\n           I could tell you more about radishes.”\n                                -- Samuel Beckett';
-%fprintf(logo);
-
 disp("RADI is running the following setup/station:")
 disp(Station)
 if rerun==1
@@ -139,10 +136,9 @@ if rerun == 0 %concentrations set to zero for solids, bottom water values for no
     % variable saving
     i=1;
     idx=1;
-    plot_number=0:t_length/stoptime:t_length;  %we will only keep the variables every year
-%    plot_number=0:t_length/stoptime/12800:t_length;  %we will keep the variables every (1/32000) year (~half an hour)
-%    plot_number=0:t_length/stoptime/12800:t_length;  %we will keep the variables every (1/40) year (~half an hour)
-plot_number(1)=1;
+    plot_number=0:t_length/stoptime*time_saved_resolution:t_length;  %we will save the variables every "time_saved_resolution" year
+    plot_number=0:t_length/stoptime*time_saved_resolution:t_length;  %we will save the variables every "time_saved_resolution" year
+    plot_number(1)=1;
     
 elseif rerun==1 %if it is a rerun, initial conditions are concentrations from last time step
     dO2=dO2f(:,idx-1)';            %[mol/m3]
@@ -165,7 +161,7 @@ elseif rerun==1 %if it is a rerun, initial conditions are concentrations from la
     paragonite=paragonitef(:,idx-1)';            %[mol/m3]
     pclay=pclayf(:,idx-1)';            %[mol/m3]
     
-    plot_number=0:t_length/stoptime:t_length;  %we will only keep the variables every year
+    plot_number=0:t_length/stoptime*time_saved_resolution:t_length;  %we will save the variables every "time_saved_resolution" year
     i=plot_number(idx-1);
     
 else
@@ -191,10 +187,10 @@ else
     pclay=pclayic';
    end 
     % variable saving
-%    i=1;
-%    idx=1;
-%    plot_number=0:t_length/stoptime/32000:t_length;  %we will only keep the variables every year
-%    plot_number(1)=1;    
+    i=1;
+    idx=1;
+    plot_number=0:t_length/stoptime*time_saved_resolution:t_length;  %we will save the variables every "time_saved_resolution" year
+    plot_number(1)=1;    
 
 
 %% short-cut transport variables
